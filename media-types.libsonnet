@@ -17,17 +17,17 @@ local mt = oapi.mediaType;
 local ex = oapi.example;
 local liboci = import 'oci-jsonnet/image/v1.0.1/spec.libsonnet';
 local ociExamples = liboci.examples;
-local schemas = import '../schema/schema.libsonnet';
+local schema = import 'oci-schemas/oci.libsonnet';
 
 local json = 'application/json';
 
 local err = {
-  [json]: mt.new(schemas.oci.errors('openapi')),
+  [json]: mt.new(schema.errors('openapi')),
 };
 
 
+local binary = { type: 'string', format: 'binary' };
 local common = {
-  local binary = { type: 'string', format: 'binary' },
 
   octetStream: {
     'application/octet-stream':
@@ -41,18 +41,18 @@ local oci = {
 
     imageManifest:: {
       'application/vnd.oci.image.manifest.v1+json':
-        mt.new(schemas.oci.imageManifest('openapi'))
+        mt.new(schema.imageManifest('openapi'))
         .addExample(ociExamples.manifest),
     },
 
     index:: {
       'application/vnd.oci.index.v1+json':
-        mt.new(schemas.oci.imageIndex('openapi')),
+        mt.new(schema.imageIndex('openapi')),
     },
 
     config:: {
       'application/vnd.oci.config.v1+json':
-        mt.new(schemas.oci.config('openapi')),
+        mt.new(schema.config('openapi')),
     },
 
     descriptor:: 'application/vnd.oci.descriptor.v1+json',
@@ -60,30 +60,30 @@ local oci = {
 
     layerTar:: {
       'application/vnd.oci.layer.v1.tar':
-        mt.new(schemas.common.binary),
+        mt.new(binary),
     },
 
     layerTarGz:: {
       'application/vnd.oci.layer.v1.tar+gzip':
-        mt.new(schemas.common.binary),
+        mt.new(binary),
     },
 
     layerNoDistTar:: {
       'application/vnd.oci.layer.nondistributable.v1.tar':
-        mt.new(schemas.common.binary),
+        mt.new(binary),
     },
 
     layerNoDistTarGz:: {
       'application/vnd.oci.layer.nondistributable.v1.tar+gzip':
-        mt.new(schemas.common.binary),
+        mt.new(binary),
     },
 
     catalog:: {
-      [json]: mt.new(schemas.oci.catalog('openapi')),
+      [json]: mt.new(schema.catalog('openapi')),
     },
 
     tagsList:: {
-      [json]: mt.new(schemas.oci.tagsList('openapi')),
+      [json]: mt.new(schema.tagsList('openapi')),
     },
   },
 
