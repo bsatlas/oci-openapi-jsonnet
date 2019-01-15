@@ -18,10 +18,6 @@ local params = import 'parameters.libsonnet';
 local pathItem = oapi.pathItem;
 
 local endpoints = {
-  stori:: {
-    namespace:: '/images/namespaces',
-  },
-
   oci:: {
     base:: '/v2',
     catalog:: '/v2/_catalog',
@@ -34,14 +30,6 @@ local endpoints = {
 };
 
 local items = {
-  stori:: {
-    local namespace =
-      pathItem.new()
-      .addOperation('PUT', ops.stori.namespaceCreate),
-
-    namespace:: namespace,
-  },
-
   oci:: {
     local base =
       pathItem.new()
@@ -108,12 +96,6 @@ local items = {
   },
 };
 
-local storiPaths =
-  oapi.paths.new()
-  .addPath(endpoints.stori.namespace, items.stori.namespace)
-;
-
-
 local ociPaths =
   oapi.paths.new()
   .addPath(endpoints.oci.base, items.oci.base)
@@ -125,4 +107,4 @@ local ociPaths =
   .addPath(endpoints.oci.uploadId, items.oci.uploadId)
 ;
 
-storiPaths + ociPaths
+ociPaths
